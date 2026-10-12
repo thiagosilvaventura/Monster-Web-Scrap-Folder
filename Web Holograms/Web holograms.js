@@ -1,10 +1,8 @@
 (function() {
-    // Evita criar múltiplos painéis se o código rodar mais de uma vez
     if (document.getElementById('holo-panel-tv')) {
         document.getElementById('holo-panel-tv').remove();
     }
 
-    // Injeção de CSS para a estética do Holograma
     const style = document.createElement('style');
     style.innerHTML = `
         @keyframes holoFlicker {
@@ -33,7 +31,6 @@
     `;
     document.head.appendChild(style);
 
-    // Criação do Painel Principal
     const panel = document.createElement('div');
     panel.id = 'holo-panel-tv';
     panel.style.cssText = `
@@ -54,7 +51,6 @@
         animation: holoFlicker 3s infinite;
     `;
 
-    // Cabeçalho (Área de arrastar)
     const header = document.createElement('div');
     header.style.cssText = `
         padding: 10px 15px; 
@@ -84,7 +80,6 @@
     header.appendChild(closeBtn);
     panel.appendChild(header);
 
-    // Lógica para arrastar a janela
     let isDragging = false, startX, startY, initialX, initialY;
     header.addEventListener('mousedown', (e) => {
         isDragging = true;
@@ -96,14 +91,13 @@
         if (!isDragging) return;
         panel.style.left = initialX + (e.clientX - startX) + 'px';
         panel.style.top = initialY + (e.clientY - startY) + 'px';
-        panel.style.right = 'auto'; // Remove o travamento na direita ao mover
+        panel.style.right = 'auto';
     });
     document.addEventListener('mouseup', () => {
         isDragging = false;
         header.style.cursor = 'grab';
     });
 
-    // Container dos Botões
     const content = document.createElement('div');
     content.style.padding = '15px';
     content.style.display = 'flex';
@@ -118,12 +112,52 @@
         return b;
     };
 
-    // Função que gera o script JS para clonar o site em outra aba
     const generateInjectionScript = (includeBaseTag) => {
-        let htmlContent = document.documentElement.outerHTML;
+        const clone = document.documentElement.cloneNode(true);
+        
+        // Remove scripts e o próprio painel holográfico da cópia
+        clone.querySelectorAll('script, iframe, noscript').forEach(el => el.remove());
+        const panelInClone = clone.querySelector('#holo-panel-tv');
+        if (panelInClone) panelInClone.remove();
+
+        // Injeta CSS para criar a aparência fantasma
+        const ghostCSS = document.createElement('style');
+        ghostCSS.innerHTML = `
+            * {
+                color: rgba(0, 255, 255, 0.7) !important;
+                background-color: transparent !important;
+                border-color: rgba(0, 255, 255, 0.3) !important;
+                text-shadow: 0 0 5px rgba(0, 255, 255, 0.8) !important;
+                box-shadow: 0 0 5px rgba(0, 255, 255, 0.2) !important;
+            }
+            img, svg, canvas, video {
+                opacity: 0.3 !important;
+                filter: sepia(100%) hue-rotate(180deg) saturate(300%) brightness(120%) !important;
+                mix-blend-mode: screen !important;
+            }
+            body {
+                background: rgba(0, 20, 30, 0.65) !important;
+                margin: 0;
+            }
+            body::after {
+                content: "";
+                position: fixed;
+                top: 0; left: 0; width: 100vw; height: 100vh;
+                background: repeating-linear-gradient(transparent 0px, transparent 2px, rgba(0, 255, 255, 0.1) 3px, rgba(0, 255, 255, 0.1) 4px);
+                z-index: 9999999;
+                pointer-events: none;
+            }
+        `;
+        
+        if (clone.querySelector('head')) {
+            clone.querySelector('head').appendChild(ghostCSS);
+        } else {
+            clone.insertBefore(ghostCSS, clone.firstChild);
+        }
+
+        let htmlContent = clone.outerHTML;
         
         if (includeBaseTag) {
-            // Insere a tag <base> para que imagens e links funcionem mesmo em outro domínio
             const baseTag = `<base href="${window.location.origin}">`;
             if(htmlContent.includes('<head>')) {
                 htmlContent = htmlContent.replace('<head>', '<head>' + baseTag);
@@ -132,13 +166,19 @@
             }
         }
 
-        // Usamos encodeURIComponent para evitar quebras de aspas/strings no código injetado
         return `
-// CÓDIGO CLONADO GERADO PELO HOLOGRAMA DE SITES
+// CÓDIGO FANTASMA 
 (function() {
+    const existingGhost = document.getElementById('holo-ghost-iframe');
+    if (existingGhost) existingGhost.remove();
+
     const encodedHTML = "${encodeURIComponent(htmlContent)}";
     const iframe = document.createElement('iframe');
-    iframe.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;border:none;z-index:999999999;background:white;';
+    iframe.id = 'holo-ghost-iframe';
+    
+    // Configura o iframe para ser transparente, levemente opaco e ignorar cliques do mouse
+    iframe.style.cssText = 'position:fixed; top:0; left:0; width:100vw; height:100vh; border:none; z-index:999999998; background:transparent; pointer-events:none; opacity:0.85; mix-blend-mode:screen;';
+    
     document.body.appendChild(iframe);
     iframe.contentDocument.open();
     iframe.contentDocument.write(decodeURIComponent(encodedHTML));
@@ -147,35 +187,38 @@
         `.trim();
     };
 
-    // Botão 1: Copiar código HTML simples em JS
     const btnCopyHTML = createBtn('Copiar toda a tela (HTML)', () => {
         const code = generateInjectionScript(false);
         navigator.clipboard.writeText(code).then(() => {
-            alert('Código copiado! Cole no Console (Inspect) de outra aba para sobrepor a tela.');
+            alert('Fantasma copiado! Cole no Console da mesma aba para sobrepor.');
         });
     });
 
-    // Botão 2: Exportar em .txt
     const btnExportTXT = createBtn('Exportar o código em um arquivo txt', () => {
-        const blob = new Blob([document.documentElement.outerHTML], { type: 'text/plain' });
+        const clone = document.documentElement.cloneNode(true);
+        clone.querySelectorAll('script, iframe, noscript').forEach(el => el.remove());
+        const panelInClone = clone.querySelector('#holo-panel-tv');
+        if (panelInClone) panelInClone.remove();
+        
+        const blob = new Blob([clone.outerHTML], { type: 'text/plain' });
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
         a.download = 'codigo-holograma-tv.txt';
         a.click();
     });
 
-    // Botão 3: Copiar Código com Funcionalidades (Resolve caminhos de imagens e JS relativos)
-    const btnCopyFunc = createBtn('Copiar códigos e funcionalidades', () => {
+    const btnCopyFunc = createBtn('Copiar códigos visuais (Fantasma)', () => {
         const code = generateInjectionScript(true);
         navigator.clipboard.writeText(code).then(() => {
-            alert('Código turbinado copiado! Suporta dependências, CSS e imagens cross-domain. Cole no Console de outra aba.');
+            alert('Fantasma estético com CSS base copiado!');
         });
     });
 
-    // Botão 4: Limpar (Fecha o painel)
     const btnClear = createBtn('Limpar', () => {
         panel.remove();
-        style.remove(); // Remove o CSS injetado
+        style.remove();
+        const ghost = document.getElementById('holo-ghost-iframe');
+        if(ghost) ghost.remove();
     });
 
     content.appendChild(btnCopyHTML);
@@ -184,6 +227,5 @@
     content.appendChild(btnClear);
     panel.appendChild(content);
 
-    // Injeta o painel na tela
     document.body.appendChild(panel);
 })();
