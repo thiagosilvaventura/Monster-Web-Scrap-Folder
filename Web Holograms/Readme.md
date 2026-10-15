@@ -11,6 +11,9 @@ Um script de injeção em JavaScript para o console do navegador que realiza a c
 
 <img width="1907" height="919" alt="image" src="https://github.com/user-attachments/assets/5070bba8-5ba7-4308-8d06-c2b76dbba2b5" />
 
+<img width="1865" height="906" alt="image" src="https://github.com/user-attachments/assets/48dce9d6-c25d-42e4-a953-07610b127e95" />
+
+
 
 
 ## ⚙️ Funcionalidades
