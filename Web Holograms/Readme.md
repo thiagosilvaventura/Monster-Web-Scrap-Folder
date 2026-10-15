@@ -48,8 +48,3 @@ O funcionamento da projeção baseia-se na injeção de um `iframe` sobreposto o
 * **Isolamento de Eventos:** O elemento projetado possui a propriedade CSS `pointer-events: none;`. Isso garante que o usuário continue interagindo normalmente com a página real que está por baixo da projeção.
 * **Resolução de Caminhos Relativos:** Durante a etapa de clonagem, o script injeta dinamicamente uma tag `<base>` contendo o domínio de origem. Isso previne a quebra de imagens e regras de CSS quando o holograma é renderizado em domínios de terceiros.
 
-## ⚠️ Limitações Técnicas
-
-* **CORS e Políticas de Segurança (CSP):** Imagens, fontes ou folhas de estilo protegidas por políticas restritivas de *Cross-Origin Resource Sharing* podem falhar ao carregar caso a projeção seja colada em um domínio diferente do original.
-* **Closed Shadow DOM:** Elementos web customizados que utilizem o modo fechado (*closed*) do *Shadow DOM* não expõem sua estrutura interna para o método global de clonagem do `documentElement`.
-* **Vídeos Nativos:** Tags `<video>` reproduzindo mídia não serializável aparecerão como blocos vazios na estrutura clonada.
