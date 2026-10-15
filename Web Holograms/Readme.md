@@ -7,6 +7,7 @@ Um script de injeção em JavaScript para o console do navegador que realiza a c
 
 <img width="343" height="160" alt="image" src="https://github.com/user-attachments/assets/357c7ce1-875b-4aa3-9eac-e9bd3980f0ec" />
 
+<img width="1875" height="825" alt="image" src="https://github.com/user-attachments/assets/1c376452-e92c-4b3d-969d-3cb398306cf5" />
 
 
 ## ⚙️ Funcionalidades
