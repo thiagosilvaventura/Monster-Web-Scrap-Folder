@@ -9,6 +9,9 @@ Um script de injeção em JavaScript para o console do navegador que realiza a c
 
 <img width="1875" height="825" alt="image" src="https://github.com/user-attachments/assets/1c376452-e92c-4b3d-969d-3cb398306cf5" />
 
+<img width="1907" height="919" alt="image" src="https://github.com/user-attachments/assets/5070bba8-5ba7-4308-8d06-c2b76dbba2b5" />
+
+
 
 ## ⚙️ Funcionalidades
 
