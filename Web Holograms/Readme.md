@@ -5,6 +5,9 @@ Um script de injeção em JavaScript para o console do navegador que realiza a c
 
 <img width="1899" height="940" alt="meli01" src="https://github.com/user-attachments/assets/a2b303fe-7d38-419c-bddb-294333125692" />
 
+<img width="343" height="160" alt="image" src="https://github.com/user-attachments/assets/357c7ce1-875b-4aa3-9eac-e9bd3980f0ec" />
+
+
 
 ## ⚙️ Funcionalidades
 
