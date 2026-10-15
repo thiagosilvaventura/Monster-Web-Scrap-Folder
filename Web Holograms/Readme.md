@@ -2,6 +2,10 @@
 
 Um script de injeção em JavaScript para o console do navegador que realiza a captura estrutural de páginas web e gera uma sobreposição visual estática com estética de holograma. O projeto extrai o DOM atual, serializa elementos renderizados e aplica filtros de CSS isolados sem interferir na usabilidade da página subjacente.
 
+
+<img width="1899" height="940" alt="meli01" src="https://github.com/user-attachments/assets/a2b303fe-7d38-419c-bddb-294333125692" />
+
+
 ## ⚙️ Funcionalidades
 
 | Recurso | Descrição |
